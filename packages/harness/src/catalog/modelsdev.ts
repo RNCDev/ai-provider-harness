@@ -32,8 +32,7 @@ export class Catalog extends EventEmitter {
     this.url = opts.url ?? "https://models.dev/api.json";
     this.ttlMs = opts.ttlMs ?? 24 * 60 * 60 * 1000;
     this.now = opts.now ?? Date.now;
-    const s = opts.store ?? new Map<string, unknown>();
-    this.store = "get" in s && typeof s.get === "function" ? (s as CatalogStore) : (s as CatalogStore);
+    this.store = (opts.store ?? new Map<string, unknown>()) as CatalogStore;
   }
 
   async listModels(providerId: ProviderId): Promise<ModelDescriptor[]> {
@@ -45,6 +44,7 @@ export class Catalog extends EventEmitter {
 
   async refresh(): Promise<void> {
     this.store.set("snapshot", null);
+    this.inFlight = null;
     await this.snapshot();
   }
 
