@@ -6,3 +6,4 @@ export * from "./hooks/useModels.js";
 export * from "./hooks/useSelection.js";
 export * from "./hooks/useSettings.js";
 export * from "./hooks/useKey.js";
+export * from "./hooks/useChat.js";
