@@ -64,7 +64,10 @@ export class ServerTransport implements Transport {
       return;
     }
     for await (const line of parseSseLines(res.body)) {
-      try { yield JSON.parse(line) as ChatChunk; } catch { /* ignore */ }
+      try { yield JSON.parse(line) as ChatChunk; } catch (e) {
+        yield { type: "error" as const, error: `malformed SSE frame: ${String(e)}` };
+        return;
+      }
     }
   }
 }
