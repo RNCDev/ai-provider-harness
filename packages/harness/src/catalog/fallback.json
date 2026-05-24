@@ -1,0 +1,24 @@
+{
+  "fetchedAt": "2026-05-23T00:00:00Z",
+  "providers": {
+    "openai": { "models": [
+      { "id": "gpt-4o", "displayName": "GPT-4o", "contextWindow": 128000, "maxOutput": 16384, "capabilities": { "streaming": true, "tools": true, "vision": true, "reasoning": false } },
+      { "id": "gpt-4o-mini", "displayName": "GPT-4o mini", "contextWindow": 128000, "maxOutput": 16384, "capabilities": { "streaming": true, "tools": true, "vision": true, "reasoning": false } }
+    ] },
+    "anthropic": { "models": [
+      { "id": "claude-opus-4-7", "displayName": "Claude Opus 4.7", "contextWindow": 1000000, "maxOutput": 64000, "capabilities": { "streaming": true, "tools": true, "vision": true, "reasoning": true } },
+      { "id": "claude-sonnet-4-6", "displayName": "Claude Sonnet 4.6", "contextWindow": 200000, "maxOutput": 64000, "capabilities": { "streaming": true, "tools": true, "vision": true, "reasoning": true } }
+    ] },
+    "google": { "models": [
+      { "id": "gemini-1.5-pro", "displayName": "Gemini 1.5 Pro", "contextWindow": 2000000, "maxOutput": 8192, "capabilities": { "streaming": true, "tools": true, "vision": true, "reasoning": false } }
+    ] },
+    "openrouter": { "models": [] },
+    "together": { "models": [] },
+    "fireworks": { "models": [] },
+    "groq": { "models": [
+      { "id": "llama-3.1-70b-versatile", "displayName": "Llama 3.1 70B", "contextWindow": 131072, "maxOutput": 8192, "capabilities": { "streaming": true, "tools": true, "vision": false, "reasoning": false } }
+    ] },
+    "cerebras": { "models": [] },
+    "ollama": { "models": [] }
+  }
+}

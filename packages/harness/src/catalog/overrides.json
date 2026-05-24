@@ -1,0 +1,5 @@
+{
+  "anthropic": { "requires": ["maxTokens"] },
+  "google": { "supportsSystemPrompt": true },
+  "ollama": { "endpointEnvVar": "OLLAMA_BASE_URL" }
+}
