@@ -13,7 +13,7 @@ export function useProviders(): UseProvidersResult & { refresh: () => void } {
   const [tick, setTick] = useState(0);
   useEffect(() => {
     let cancelled = false;
-    set((s) => ({ ...s, status: "loading" }));
+    set((s) => ({ ...s, status: "loading", error: null } as UseProvidersResult));
     t.listModels()
       .then((r) => { if (!cancelled) set({ status: "ready", providers: r.providers, error: null }); })
       .catch((e: Error) => { if (!cancelled) set({ status: "error", providers: [], error: e }); });
