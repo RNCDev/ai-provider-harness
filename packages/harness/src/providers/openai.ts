@@ -39,8 +39,8 @@ export class OpenAIProvider implements Provider {
       ...(req.settings?.maxTokens !== undefined && { max_tokens: req.settings.maxTokens }),
       ...(req.settings?.topP !== undefined && { top_p: req.settings.topP }),
       ...(req.settings?.stop && { stop: req.settings.stop }),
-      ...(req.tools && { tools: req.tools }),
-      ...(req.toolChoice && { tool_choice: req.toolChoice }),
+      ...(req.tools ? { tools: req.tools as object[] } : {}),
+      ...(req.toolChoice ? { tool_choice: req.toolChoice as string | object } : {}),
     };
     const res = await fetch(`${this.opts.baseUrl ?? BASE}/chat/completions`, {
       method: "POST",

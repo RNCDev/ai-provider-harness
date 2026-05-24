@@ -24,3 +24,8 @@ export function createHarness(opts: CreateHarnessOptions): Harness {
 
 export { createHandlers } from "./handlers.js";
 export type { Handlers } from "./handlers.js";
+export { aphExpress } from "./express.js";
+export { aphNext } from "./next.js";
+export { aphFastify } from "./fastify.js";
+export type { AphFastifyOpts } from "./fastify.js";
+export { aphHono } from "./hono.js";

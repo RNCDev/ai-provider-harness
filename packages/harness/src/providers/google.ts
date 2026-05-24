@@ -36,7 +36,7 @@ export class GoogleProvider implements Provider {
         ...(req.settings?.topP !== undefined && { topP: req.settings.topP }),
         ...(req.settings?.stop && { stopSequences: req.settings.stop }),
       },
-      ...(req.tools && { tools: req.tools }),
+      ...(req.tools ? { tools: req.tools as object[] } : {}),
     };
     const url = `${this.opts.baseUrl ?? BASE}/models/${encodeURIComponent(req.modelId)}:streamGenerateContent?alt=sse`;
     const res = await fetch(url, {

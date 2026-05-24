@@ -46,7 +46,7 @@ export class AnthropicProvider implements Provider {
       ...(req.settings.temperature !== undefined && { temperature: req.settings.temperature }),
       ...(req.settings.topP !== undefined && { top_p: req.settings.topP }),
       ...(req.settings.stop && { stop_sequences: req.settings.stop }),
-      ...(req.tools && { tools: req.tools }),
+      ...(req.tools ? { tools: req.tools as object[] } : {}),
       messages,
     };
     const res = await fetch(`${this.opts.baseUrl ?? BASE}/messages`, {
