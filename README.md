@@ -20,9 +20,9 @@ AI Provider Harness does. Drop in the package, mount one endpoint, render a few 
 
 | Package | Status | Purpose |
 | --- | --- | --- |
-| [`@aph/harness`](packages/harness) | v0.1 (this milestone) | Framework-agnostic engine + Node server adapter. Provider registry, models.dev catalog, settings schema, storage adapters, unified `/aph/*` endpoint surface. |
-| [`@aph/react`](packages/react) | planned | Headless React hooks (`useProviders`, `useModels`, `useSettings`, `useChat`) + Radix-style unstyled primitives. Works in browser-only or server-backed mode. |
-| [`@aph/starters`](packages/starters) | planned | shadcn-style CLI that copies Tailwind-styled component source into your repo. You own the code; we just seed it. |
+| [`@aph/harness`](packages/harness) | v0.1 | Framework-agnostic engine + Node server adapter. Provider registry, models.dev catalog, settings schema, storage adapters, unified `/aph/*` endpoint surface. |
+| [`@aph/react`](packages/react) | v0.1 | Headless React hooks (`useProviders`, `useModels`, `useSettings`, `useChat`) + Radix-style unstyled primitives. Works in browser-only or server-backed mode. |
+| [`@aph/starters`](packages/starters) | v0.1 | shadcn-style CLI that copies Tailwind-styled component source into your repo. You own the code; we just seed it. |
 
 ## Quick start (server-backed Next.js)
 
@@ -66,6 +66,21 @@ Your app now has:
 OpenAI · Anthropic · Google · OpenRouter · Together · Fireworks · Groq · Cerebras · Ollama
 
 Bedrock and Azure OpenAI are deferred to v2 (they require structured multi-field credentials, not a single API key).
+
+## Try the examples
+
+```bash
+pnpm install
+pnpm --filter @aph-examples/vite-local dev       # browser-mode, BYO key
+pnpm --filter @aph-examples/next-saas dev        # server-mode, per-user keys
+pnpm --filter @aph-examples/express-api dev      # backend-only
+```
+
+## Drop the starter into your app
+
+```bash
+npx @aph/starters add settings-panel ./src/components/aph
+```
 
 ## License
 
