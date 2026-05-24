@@ -26,4 +26,11 @@ describe("BrowserStorageAdapter", () => {
     await s.setKey("u1", "anthropic", "sk-a");
     expect(await s.hasKey("u1", "anthropic")).toBe(true);
   });
+
+  it("deleteKey removes key from IndexedDB", async () => {
+    const s = new BrowserStorageAdapter();
+    await s.setKey("u1", "openai", "sk-del");
+    await s.deleteKey("u1", "openai");
+    expect(await s.hasKey("u1", "openai")).toBe(false);
+  });
 });
