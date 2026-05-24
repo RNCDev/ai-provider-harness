@@ -10,7 +10,13 @@ export function aphHono(harness: Harness): Hono {
   app.put("/config", async (c) => c.json(await harness.handlers.putConfig(await owner(c.req.raw), await c.req.json())));
   app.get("/keys/:provider", async (c) => c.json(await harness.handlers.keyStatus(await owner(c.req.raw), c.req.param("provider"))));
   app.put("/keys/:provider", async (c) => {
-    const { key } = (await c.req.json()) as { key?: string };
+    let parsed: { key?: string };
+    try {
+      parsed = (await c.req.json()) as { key?: string };
+    } catch {
+      return c.json({ error: "invalid JSON body" }, 400);
+    }
+    const { key } = parsed;
     if (!key) return c.json({ error: "missing key" }, 400);
     return c.json(await harness.handlers.putKey(await owner(c.req.raw), c.req.param("provider"), key));
   });

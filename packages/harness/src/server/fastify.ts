@@ -26,6 +26,7 @@ export const aphFastify: FastifyPluginAsync<AphFastifyOpts> = async (app: Fastif
     if (!Array.isArray(body.messages)) return reply.code(400).send({ error: "messages must be an array" });
     reply.raw.setHeader("content-type", "text/event-stream");
     reply.raw.setHeader("cache-control", "no-cache");
+    reply.hijack();
     try {
       for await (const c of h.handlers.chat(await owner(req), req.body as Parameters<typeof h.handlers.chat>[1], providerId)) {
         reply.raw.write(`data: ${JSON.stringify(c)}\n\n`);
