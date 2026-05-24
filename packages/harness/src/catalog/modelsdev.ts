@@ -37,7 +37,7 @@ export class Catalog extends EventEmitter {
 
   async listModels(providerId: ProviderId): Promise<ModelDescriptor[]> {
     const snap = await this.snapshot();
-    const entry = snap.providers[providerId];
+    const entry = snap.providers?.[providerId];
     if (!entry) return [];
     return entry.models.map((m) => ({ ...m, providerId }));
   }
