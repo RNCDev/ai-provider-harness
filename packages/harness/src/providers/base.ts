@@ -15,8 +15,7 @@ export async function* parseSseLines(stream: ReadableStream<Uint8Array>): AsyncG
       }
     }
   } finally {
-    reader.cancel().catch(() => {});
-    reader.releaseLock();
+    await reader.cancel().catch(() => {});
   }
 }
 

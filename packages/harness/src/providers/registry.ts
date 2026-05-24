@@ -22,7 +22,13 @@ export const defaultProviders: Record<string, Provider> = {
 };
 
 export class ProviderRegistry {
-  constructor(private map: Record<string, Provider>) {}
+  constructor(private map: Record<string, Provider>) {
+    for (const [key, provider] of Object.entries(map)) {
+      if (key !== provider.id) {
+        throw new Error(`ProviderRegistry: key "${key}" does not match provider.id "${provider.id}"`);
+      }
+    }
+  }
   get(id: string): Provider | undefined { return this.map[id]; }
   ids(): string[] { return Object.keys(this.map); }
   all(): Provider[] { return Object.values(this.map); }

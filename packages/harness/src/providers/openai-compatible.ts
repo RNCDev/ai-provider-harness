@@ -62,16 +62,19 @@ export function createOpenAICompatibleProvider(cfg: OpenAICompatibleConfig): Pro
           const choice = evt.choices?.[0];
           if (choice?.delta?.content) yield { type: "text", text: choice.delta.content };
           if (choice?.delta && "tool_calls" in choice.delta) {
-            for (const d of choice.delta.tool_calls ?? []) {
-              const existing = toolCallMap.get(d.index) ?? { id: "", name: "", arguments: "" };
-              toolCallMap.set(d.index, {
-                id: existing.id || d.id || "",
-                name: existing.name || d.function?.name || "",
-                arguments: existing.arguments + (d.function?.arguments ?? ""),
-              });
+            const toolCallsArr = choice.delta.tool_calls;
+            if (Array.isArray(toolCallsArr)) {
+              for (const d of toolCallsArr) {
+                const existing = toolCallMap.get(d.index) ?? { id: "", name: "", arguments: "" };
+                toolCallMap.set(d.index, {
+                  id: existing.id || d.id || "",
+                  name: existing.name || d.function?.name || "",
+                  arguments: existing.arguments + (d.function?.arguments ?? ""),
+                });
+              }
             }
           }
-          if (choice?.finish_reason) {
+          if (choice?.finish_reason && choice.finish_reason !== "null") {
             for (const [, tc] of toolCallMap) {
               yield { type: "tool_call", toolCall: { id: tc.id, name: tc.name, arguments: tc.arguments } };
             }
