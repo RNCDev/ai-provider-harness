@@ -38,17 +38,23 @@ export interface ChatRequest {
   modelId: ModelId;
   messages: ChatMessage[];
   settings?: InferenceSettings;
+  /** Tool definitions in provider-native format; untyped until ToolDefinition lands in v2. */
   tools?: unknown;
   toolChoice?: unknown;
   stream?: boolean;
 }
 
-export interface ChatChunk {
-  type: "text" | "tool_call" | "finish" | "error";
-  text?: string;
-  toolCall?: ToolCall;
-  finishReason?: string;
-  error?: string;
+export type ChatChunk =
+  | { type: "text"; text: string }
+  | { type: "tool_call"; toolCall: ToolCall }
+  | { type: "finish"; finishReason: string }
+  | { type: "error"; error: string };
+
+export interface ModelCapabilities {
+  streaming: boolean;
+  tools: boolean;
+  vision: boolean;
+  reasoning: boolean;
 }
 
 export interface ModelDescriptor {
@@ -57,12 +63,7 @@ export interface ModelDescriptor {
   displayName: string;
   contextWindow?: number;
   maxOutput?: number;
-  capabilities: {
-    streaming: boolean;
-    tools: boolean;
-    vision: boolean;
-    reasoning: boolean;
-  };
+  capabilities: ModelCapabilities;
 }
 
 export interface Provider {
