@@ -1,6 +1,6 @@
 # AI Provider Harness
 
-> Drop-in TypeScript library that takes the complexity of AI integration out of app builders' hair: one unified endpoint, always-current model list, pluggable storage, headless UI.
+> Drop-in TypeScript library for AI provider/model integration: one unified endpoint, always-current model list, pluggable storage, headless UI.
 
 ## Why
 
