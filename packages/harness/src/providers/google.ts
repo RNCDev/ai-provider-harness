@@ -53,9 +53,29 @@ export class GoogleProvider implements Provider {
         const evt = JSON.parse(line) as {
           candidates?: { content?: { parts?: { text?: string }[] }; finishReason?: string }[];
         };
+        if ((evt as { error?: unknown }).error) {
+          const errMsg = (evt as { error: { message?: string } }).error.message ?? "unknown error";
+          yield { type: "error" as const, error: `google error: ${errMsg}` };
+          return;
+        }
         const cand = evt.candidates?.[0];
-        const text = cand?.content?.parts?.map((p) => p.text ?? "").join("");
-        if (text) yield { type: "text" as const, text };
+        const parts = cand?.content?.parts ?? [];
+        for (const p of parts) {
+          const part = p as { text?: string; functionCall?: { name?: string; args?: unknown } };
+          if (part.text) {
+            yield { type: "text" as const, text: part.text };
+          }
+          if (part.functionCall) {
+            yield {
+              type: "tool_call" as const,
+              toolCall: {
+                id: `${req.modelId}-fc`,
+                name: part.functionCall.name ?? "",
+                arguments: JSON.stringify(part.functionCall.args ?? {}),
+              },
+            };
+          }
+        }
         if (cand?.finishReason) yield { type: "finish" as const, finishReason: cand.finishReason };
       } catch {
         // ignore
