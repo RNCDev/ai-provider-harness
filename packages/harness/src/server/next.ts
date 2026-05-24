@@ -39,14 +39,23 @@ export function aphNext(harness: Harness): { GET: RouteHandler; POST: RouteHandl
         const providerId = url.searchParams.get("provider");
         if (!providerId) return Response.json({ error: "missing ?provider" }, { status: 400 });
         const body = await req.json();
+        const chatBody = body as { messages?: unknown };
+        if (!Array.isArray(chatBody.messages)) {
+          return Response.json({ error: "messages must be an array" }, { status: 400 });
+        }
         const owner = await ownerOf(req);
         const enc = new TextEncoder();
         const stream = new ReadableStream({
           async start(c) {
-            for await (const chunk of harness.handlers.chat(owner, body, providerId)) {
-              c.enqueue(enc.encode(`data: ${JSON.stringify(chunk)}\n\n`));
+            try {
+              for await (const chunk of harness.handlers.chat(owner, body, providerId)) {
+                c.enqueue(enc.encode(`data: ${JSON.stringify(chunk)}\n\n`));
+              }
+            } catch (e) {
+              c.enqueue(enc.encode(`data: ${JSON.stringify({ type: "error", error: String(e) })}\n\n`));
+            } finally {
+              c.close();
             }
-            c.close();
           },
         });
         return new Response(stream, {

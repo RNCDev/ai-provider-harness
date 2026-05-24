@@ -33,15 +33,24 @@ export function aphExpress(harness: Harness): Router {
   });
   r.post("/chat", async (req, res, next) => {
     try {
-      const providerId = String(req.query["provider"] ?? "");
+      const rawProvider = req.query["provider"];
+      const providerId = typeof rawProvider === "string" ? rawProvider : "";
       if (!providerId) { res.status(400).json({ error: "missing ?provider" }); return; }
+      const body = req.body as { messages?: unknown };
+      if (!Array.isArray(body.messages)) { res.status(400).json({ error: "messages must be an array" }); return; }
       res.setHeader("content-type", "text/event-stream");
       res.setHeader("cache-control", "no-cache");
       res.setHeader("connection", "keep-alive");
-      for await (const chunk of harness.handlers.chat(await owner(req), req.body, providerId)) {
-        res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+      try {
+        for await (const chunk of harness.handlers.chat(await owner(req), req.body, providerId)) {
+          res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+        }
+      } catch (streamErr) {
+        if (!res.headersSent) { next(streamErr); return; }
+        res.write(`data: ${JSON.stringify({ type: "error", error: String(streamErr) })}\n\n`);
+      } finally {
+        res.end();
       }
-      res.end();
     } catch (e) { next(e); }
   });
   return r;
