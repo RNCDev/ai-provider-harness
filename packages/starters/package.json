@@ -1,0 +1,25 @@
+{
+  "name": "@aph/starters",
+  "version": "0.1.0",
+  "description": "CLI that copies AI Provider Harness starter components into your repo.",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "aph-starters": "./dist/cli.js" },
+  "main": "./dist/cli.js",
+  "files": ["dist", "templates", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "picocolors": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
