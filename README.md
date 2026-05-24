@@ -1,12 +1,12 @@
 # AI Provider Harness
 
-> Drop-in TypeScript library for AI provider/model integration: one unified endpoint, always-current model list, pluggable storage, headless UI.
+> Drop-in TypeScript library that takes the complexity of AI integration out of app builders' hair: one unified endpoint, always-current model list, pluggable storage, headless UI.
 
 ## Why
 
 Every app that integrates AI re-implements the same plumbing:
 
-- Provider abstraction across OpenAI, Anthropic, Google, OpenRouter, Groq, Together, Fireworks, Cerebras, Ollama…
+- Provider abstraction across OpenAI, Anthropic, Google, OpenRouter, Groq, Together, Fireworks, Cerebras, Ollama...
 - A model picker that goes stale within weeks
 - Per-model settings (temperature, max_tokens, top_p, system prompt, stop sequences)
 - API key storage that fits the app's auth model
@@ -16,17 +16,13 @@ Existing tools each solve a slice — Vercel AI SDK (provider abstraction), Lite
 
 AI Provider Harness does. Drop in the package, mount one endpoint, render a few headless hooks/components, and ship. Every pixel of styling stays yours; every piece of logic is shared.
 
-## Status
-
-This repo is in active design. Implementation plans are in [`docs/superpowers/plans/`](docs/superpowers/plans/). Packages will appear under [`packages/`](packages/) as each plan lands.
-
 ## Packages
 
 | Package | Status | Purpose |
 | --- | --- | --- |
-| `@aph/harness` | planned (v0.1) | Framework-agnostic engine + Node server adapter. Provider registry, models.dev catalog, settings schema, storage adapters, unified `/aph/*` endpoint surface. |
-| `@aph/react` | planned | Headless React hooks (`useProviders`, `useModels`, `useSettings`, `useChat`) + Radix-style unstyled primitives. Works in browser-only or server-backed mode. |
-| `@aph/starters` | planned | shadcn-style CLI that copies Tailwind-styled component source into your repo. You own the code; we just seed it. |
+| [`@aph/harness`](packages/harness) | v0.1 (this milestone) | Framework-agnostic engine + Node server adapter. Provider registry, models.dev catalog, settings schema, storage adapters, unified `/aph/*` endpoint surface. |
+| [`@aph/react`](packages/react) | planned | Headless React hooks (`useProviders`, `useModels`, `useSettings`, `useChat`) + Radix-style unstyled primitives. Works in browser-only or server-backed mode. |
+| [`@aph/starters`](packages/starters) | planned | shadcn-style CLI that copies Tailwind-styled component source into your repo. You own the code; we just seed it. |
 
 ## Quick start (server-backed Next.js)
 
@@ -70,11 +66,6 @@ Your app now has:
 OpenAI · Anthropic · Google · OpenRouter · Together · Fireworks · Groq · Cerebras · Ollama
 
 Bedrock and Azure OpenAI are deferred to v2 (they require structured multi-field credentials, not a single API key).
-
-## Roadmap
-
-- **v1** — the three packages above, TypeScript only, with three runnable examples (`vite-local`, `next-saas`, `express-api`).
-- **v2** — Python package, Bedrock + Azure OpenAI (with structured credentials), tools-config UI, Vue/Svelte bindings via the same `@aph/harness` core.
 
 ## License
 
