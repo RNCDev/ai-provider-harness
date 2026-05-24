@@ -1,0 +1,7 @@
+{
+  "id": "settings-panel",
+  "displayName": "Settings panel",
+  "description": "Provider / model picker, API key entry, inference params, and a chat window. Tailwind-styled.",
+  "files": ["SettingsPanel.tsx", "ChatWindow.tsx", "README.md"],
+  "peerDependencies": ["@aph/react", "@aph/harness", "react", "tailwindcss"]
+}
