@@ -9,3 +9,4 @@ export * from "./hooks/useKey.js";
 export * from "./hooks/useChat.js";
 export * from "./primitives/as-child.js";
 export * from "./primitives/ProviderSelect.js";
+export * from "./primitives/ModelSelect.js";
